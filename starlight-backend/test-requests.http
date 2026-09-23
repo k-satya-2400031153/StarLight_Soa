@@ -1,0 +1,155 @@
+### =====================================================
+### STARLIGHT STAYS — API Test Requests
+### Use with VS Code REST Client or IntelliJ HTTP Client
+### =====================================================
+
+### ==================== DIRECT SERVICE TESTS ====================
+
+### [USER-SERVICE] Register a new user
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "deepak",
+    "password": "pass123",
+    "email": "deepak@klu.ac.in",
+    "role": "USER"
+}
+
+###
+
+### [USER-SERVICE] Login and get JWT token
+POST http://localhost:8081/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "deepak",
+    "password": "pass123"
+}
+
+###
+
+### [ROOM-SERVICE] Get all rooms
+GET http://localhost:8082/api/rooms
+
+###
+
+### [ROOM-SERVICE] Search rooms by location
+GET http://localhost:8082/api/rooms/search?location=Maldives
+
+###
+
+### [ROOM-SERVICE] Search rooms with multiple filters
+GET http://localhost:8082/api/rooms/search?location=Bali&type=VILLA&maxPrice=65000
+
+###
+
+### [ROOM-SERVICE] Get room by ID
+GET http://localhost:8082/api/rooms/1
+
+###
+
+### [BOOKING-SERVICE] Create a booking
+POST http://localhost:8083/api/bookings
+Content-Type: application/json
+
+{
+    "roomId": 1,
+    "roomName": "Ocean Breeze Deluxe",
+    "roomType": "DELUXE",
+    "location": "Maldives",
+    "userId": "deepak",
+    "checkIn": "2026-10-15",
+    "checkOut": "2026-10-20",
+    "guests": 2,
+    "totalPrice": 92500,
+    "image": "/images/room-deluxe.jpg"
+}
+
+###
+
+### [BOOKING-SERVICE] Get user bookings
+GET http://localhost:8083/api/bookings/user/deepak
+
+###
+
+### [BOOKING-SERVICE] Cancel a booking (change ID as needed)
+DELETE http://localhost:8083/api/bookings/1
+
+###
+
+### ==================== GATEWAY TESTS (via :8765) ====================
+
+### [GATEWAY] Register user (public — no JWT needed)
+POST http://localhost:8765/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "satya",
+    "password": "pass123",
+    "email": "satya@klu.ac.in",
+    "role": "USER"
+}
+
+###
+
+### [GATEWAY] Login via Gateway (public — no JWT needed)
+POST http://localhost:8765/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "deepak",
+    "password": "pass123"
+}
+
+###
+
+### [GATEWAY] Get all rooms (PROTECTED — needs JWT Bearer token)
+### Replace <YOUR_JWT_TOKEN> with the token from login response
+GET http://localhost:8765/api/rooms
+Authorization: Bearer <YOUR_JWT_TOKEN>
+
+###
+
+### [GATEWAY] Search rooms via Gateway (PROTECTED)
+GET http://localhost:8765/api/rooms/search?location=Maldives&type=DELUXE
+Authorization: Bearer <YOUR_JWT_TOKEN>
+
+###
+
+### [GATEWAY] Create booking via Gateway (PROTECTED)
+POST http://localhost:8765/api/bookings
+Content-Type: application/json
+Authorization: Bearer <YOUR_JWT_TOKEN>
+
+{
+    "roomId": 3,
+    "roomName": "Tropical Garden Villa",
+    "roomType": "VILLA",
+    "location": "Bali",
+    "userId": "deepak",
+    "checkIn": "2026-11-01",
+    "checkOut": "2026-11-07",
+    "guests": 4,
+    "totalPrice": 372000,
+    "image": "/images/room-villa.jpg"
+}
+
+###
+
+### [GATEWAY] Get user bookings via Gateway (PROTECTED)
+GET http://localhost:8765/api/bookings/user/deepak
+Authorization: Bearer <YOUR_JWT_TOKEN>
+
+###
+
+### [GATEWAY] Test without token (should get 401 Unauthorized)
+GET http://localhost:8765/api/rooms
+
+###
+
+### [GATEWAY] Test with invalid token (should get 401)
+GET http://localhost:8765/api/rooms
+Authorization: Bearer invalid.token.here
+
+###

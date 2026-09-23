@@ -1,0 +1,61 @@
+### 1. Get All Rooms (Public API - No Auth Required)
+GET http://localhost:8765/api/rooms
+
+###
+
+### 2. Search Rooms (Case Insensitive - Partial Match)
+GET http://localhost:8765/api/rooms/search?location=Maldive
+
+###
+
+### 3. Register a New User
+POST http://localhost:8765/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "demouser",
+  "password": "password123",
+  "email": "demo@test.com",
+  "role": "USER"
+}
+
+###
+
+### 4. Login User (Copy the JWT token from the response)
+# @name loginRequest
+POST http://localhost:8765/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "demouser",
+  "password": "password123"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
+###
+
+### 5. Get User Profile (Protected - Uses the token from previous step automatically)
+GET http://localhost:8765/api/users/profile
+Authorization: Bearer {{auth_token}}
+
+###
+
+### 6. Create a Booking (Protected - Uses the token automatically)
+POST http://localhost:8765/api/bookings
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "roomId": 1,
+  "roomName": "Ocean Breeze Deluxe",
+  "roomType": "DELUXE",
+  "location": "Maldives",
+  "userId": "demouser",
+  "checkIn": "2026-10-01",
+  "checkOut": "2026-10-05",
+  "guests": 2,
+  "totalPrice": 74000
+}

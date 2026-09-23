@@ -1,0 +1,483 @@
+@import "tailwindcss";
+
+/* ================================================
+   STARLIGHT STAYS & RESORTS — Design System
+   Premium Luxury Theme with Tailwind CSS v4
+   ================================================ */
+
+@theme {
+  /* === Navy Palette === */
+  --color-navy-950: #080b1f;
+  --color-navy-900: #0c1029;
+  --color-navy-800: #121838;
+  --color-navy-700: #1c2450;
+  --color-navy-600: #2a3568;
+  --color-navy-500: #3a4880;
+
+  /* === Gold / Champagne Accents === */
+  --color-gold-600: #9a7520;
+  --color-gold-500: #b8912e;
+  --color-gold-400: #d4a853;
+  --color-gold-300: #e8c777;
+  --color-gold-200: #f0daa0;
+  --color-gold-100: #faf0d8;
+
+  /* === Champagne === */
+  --color-champagne: #f5e6c8;
+  --color-champagne-dark: #e8d4a8;
+
+  /* === Semantic Colors === */
+  --color-surface: #ffffff;
+  --color-surface-warm: #fdfbf7;
+  --color-surface-dark: #0c1029;
+  --color-text-primary: #0c1029;
+  --color-text-secondary: #4a5568;
+  --color-text-light: #94a3b8;
+  --color-text-on-dark: #e2e8f0;
+
+  /* === Status Colors === */
+  --color-success: #10b981;
+  --color-success-light: #d1fae5;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-danger: #ef4444;
+  --color-danger-light: #fee2e2;
+  --color-info: #3b82f6;
+  --color-info-light: #dbeafe;
+
+  /* === Microservice Accent Colors === */
+  --color-cyan-400: #22d3ee;
+  --color-cyan-500: #06b6d4;
+  --color-cyan-600: #0891b2;
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #059669;
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-sky-400: #38bdf8;
+  --color-sky-500: #0ea5e9;
+
+  /* === Typography === */
+  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* === Shadows === */
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.16);
+  --shadow-gold: 0 4px 20px rgba(212, 168, 83, 0.3);
+  --shadow-modal: 0 24px 80px rgba(0, 0, 0, 0.25);
+  --shadow-cyan: 0 4px 20px rgba(6, 182, 212, 0.3);
+  --shadow-violet: 0 4px 20px rgba(139, 92, 246, 0.3);
+  --shadow-emerald: 0 4px 20px rgba(16, 185, 129, 0.3);
+
+  /* === Animations === */
+  --animate-fade-in: fadeIn 0.6s ease-out forwards;
+  --animate-fade-in-up: fadeInUp 0.6s ease-out forwards;
+  --animate-slide-up: slideUp 0.4s ease-out forwards;
+  --animate-slide-down: slideDown 0.3s ease-out forwards;
+  --animate-scale-in: scaleIn 0.3s ease-out forwards;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-gold: pulseGold 2s ease-in-out infinite;
+  --animate-pulse-cyan: pulseCyan 2s ease-in-out infinite;
+  --animate-pulse-violet: pulseViolet 2s ease-in-out infinite;
+  --animate-pulse-emerald: pulseEmerald 2s ease-in-out infinite;
+  --animate-spin-slow: spin 3s linear infinite;
+  --animate-connection-pulse: connectionPulse 2s ease-in-out infinite;
+  --animate-data-flow: dataFlow 3s linear infinite;
+}
+
+/* ================================================
+   Keyframes
+   ================================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulseGold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 168, 83, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(212, 168, 83, 0); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseCyan {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(6, 182, 212, 0); }
+}
+
+@keyframes pulseViolet {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(139, 92, 246, 0); }
+}
+
+@keyframes pulseEmerald {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+}
+
+@keyframes connectionPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes dataFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* ================================================
+   Base Styles
+   ================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-warm);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* ================================================
+   Custom Scrollbar
+   ================================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-navy-950);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold-400);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-300);
+}
+
+/* ================================================
+   Utility Classes
+   ================================================ */
+
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.glass-dark {
+  background: rgba(12, 16, 41, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--color-gold-300), var(--color-gold-400), var(--color-gold-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-navy {
+  background: linear-gradient(180deg, var(--color-navy-950) 0%, var(--color-navy-900) 50%, var(--color-navy-800) 100%);
+}
+
+.bg-gradient-gold {
+  background: linear-gradient(135deg, var(--color-gold-400) 0%, var(--color-gold-500) 100%);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--color-gold-400) 0%, var(--color-gold-500) 100%);
+  color: #080b1f;
+  font-weight: 700;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, var(--color-gold-300) 0%, var(--color-gold-400) 100%);
+  color: #080b1f;
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-2px);
+}
+
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+.btn-gold:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-gold-400);
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: 2px solid var(--color-gold-400);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.btn-outline:hover {
+  background: var(--color-gold-400);
+  color: #080b1f;
+  box-shadow: var(--shadow-gold);
+}
+
+/* Outline button for light backgrounds — uses dark gold border + text */
+.btn-outline-dark {
+  background: transparent;
+  color: var(--color-gold-600);
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: 2px solid var(--color-gold-500);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.btn-outline-dark:hover {
+  background: var(--color-gold-500);
+  color: #080b1f;
+  box-shadow: var(--shadow-gold);
+}
+
+/* ================================================
+   Date Input Styling — fix ugly default in dark theme
+   ================================================ */
+input[type="date"] {
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7) sepia(0.5) saturate(3) hue-rotate(10deg);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Focus ring for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-gold-400);
+  outline-offset: 2px;
+}
+
+/* Stagger animations */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* ================================================
+   RESPONSIVE BREAKPOINTS — Cards Auto-Arrange
+   ================================================ */
+
+/* ---------- MOBILE (max 640px) ---------- */
+@media (max-width: 640px) {
+
+  /* All grids → single column on mobile */
+  [class*="grid"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Ensure cards take full width */
+  [class*="grid"] > * {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Hero text scaling */
+  h1 { font-size: clamp(1.8rem, 8vw, 2.5rem) !important; }
+  h2 { font-size: clamp(1.4rem, 6vw, 2rem) !important; }
+
+  /* Horizontal padding on small screens */
+  .max-w-7xl { padding-left: 1rem !important; padding-right: 1rem !important; }
+
+  /* Stats row → 2 columns on mobile */
+  [class*="grid-cols-4"],
+  [class*="grid-cols-3"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Search bar inputs → stacked */
+  [class*="SearchBar"], form[class*="flex"] {
+    flex-direction: column !important;
+  }
+
+  /* Section padding reduce */
+  section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+}
+
+/* ---------- TABLET (641px – 1023px) ---------- */
+@media (min-width: 641px) and (max-width: 1023px) {
+
+  /* Room cards → 2 columns on tablet */
+  [class*="grid-cols-4"],
+  [class*="lg\\:grid-cols-4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* 3-col grids → 2 columns on tablet */
+  [class*="grid-cols-3"],
+  [class*="lg\\:grid-cols-3"],
+  [class*="md\\:grid-cols-3"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Keep 2-col grids as-is */
+  [class*="grid-cols-2"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Padding for tablets */
+  .max-w-7xl { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+}
+
+/* ---------- DESKTOP (1024px+) ---------- */
+@media (min-width: 1024px) {
+
+  /* Room grid → 3 or 4 columns based on context */
+  [class*="lg\\:grid-cols-4"] {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  [class*="lg\\:grid-cols-3"] {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* ---------- ROOM CARD — Always Fluid ---------- */
+.group.bg-white.rounded-2xl {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* ---------- NAVBAR MOBILE HELPERS ---------- */
+@media (max-width: 767px) {
+  /* Ensure hamburger button is always visible */
+  nav .md\\:hidden { display: flex !important; }
+  nav .hidden.md\\:flex { display: none !important; }
+}
+
+/* ---------- SMOOTH CONTAINER SCALING ---------- */
+.max-w-7xl {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- OFFERS PAGE GRID ---------- */
+@media (max-width: 640px) {
+  .sm\\:grid-cols-2,
+  .lg\\:grid-cols-3,
+  .md\\:grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  .sm\\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .lg\\:grid-cols-3,
+  .md\\:grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
