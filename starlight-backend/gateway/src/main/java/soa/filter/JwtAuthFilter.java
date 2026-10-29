@@ -37,14 +37,31 @@ public class JwtAuthFilter implements HandlerInterceptor {
         }
 
         // Extract the token (remove "Bearer " prefix)
-        String token = authHeader.substring(7);
+        String token = authHeader.substring(7).trim();
+        if (token.isEmpty()) {
+            sendError(response, 401, "Missing Token: Bearer token is empty");
+            return false;
+        }
 
         try {
             // Case 2: Valid Token — validate and extract claims
             Claims claims = jwtUtil.validateToken(token);
+            String username = claims.get("username", String.class);
+            String role = claims.get("role", String.class);
+
             // Store username and role in request attributes for downstream use
-            request.setAttribute("username", claims.get("username"));
-            request.setAttribute("role", claims.get("role"));
+            request.setAttribute("username", username);
+            request.setAttribute("role", role);
+
+            // Case 5: Role-Based Access Control (RBAC) check for Admin routes
+            String uri = request.getRequestURI();
+            if (uri.startsWith("/api/admin")) {
+                if (role == null || !role.equalsIgnoreCase("ADMIN")) {
+                    sendError(response, 403, "Access Denied: ADMIN role required to access this endpoint");
+                    return false;
+                }
+            }
+
             return true; // Allow request to proceed
 
         } catch (io.jsonwebtoken.ExpiredJwtException e) {
@@ -54,7 +71,7 @@ public class JwtAuthFilter implements HandlerInterceptor {
 
         } catch (Exception e) {
             // Case 4: Invalid Token (tampered, wrong signature, malformed)
-            sendError(response, 401, "Invalid Token: The provided JWT token is invalid.");
+            sendError(response, 401, "Invalid Token: The provided JWT token is invalid or tampered.");
             return false;
         }
     }
@@ -63,9 +80,11 @@ public class JwtAuthFilter implements HandlerInterceptor {
         response.setStatus(status);
         response.setContentType("application/json");
         Map<String, Object> error = new HashMap<>();
+        error.put("timestamp", java.time.Instant.now().toString());
         error.put("status", status);
-        error.put("error", "Unauthorized");
+        error.put("error", status == 403 ? "Forbidden" : "Unauthorized");
         error.put("message", message);
         response.getWriter().write(objectMapper.writeValueAsString(error));
     }
 }
+

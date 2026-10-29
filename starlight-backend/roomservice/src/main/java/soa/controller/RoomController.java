@@ -39,4 +39,28 @@ public class RoomController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    // POST /api/rooms — create a new room (admin)
+    @PostMapping
+    public ResponseEntity<Room> createRoom(@RequestBody Room room) {
+        Room created = RS.createRoom(room);
+        return ResponseEntity.status(201).body(created);
+    }
+
+    // DELETE /api/rooms/{id} — delete a room (admin)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<java.util.Map<String, Object>> deleteRoom(@PathVariable Long id) {
+        boolean deleted = RS.deleteRoom(id);
+        java.util.Map<String, Object> response = new java.util.HashMap<>();
+        if (deleted) {
+            response.put("status", "success");
+            response.put("message", "Room " + id + " deleted successfully");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("status", "error");
+            response.put("message", "Room not found with ID " + id);
+            return ResponseEntity.status(404).body(response);
+        }
+    }
 }
+

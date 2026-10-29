@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Offers from './pages/Offers';
 import Architecture from './pages/Architecture';
 import AboutProject from './pages/AboutProject';
+import Review2 from './pages/Review2';
 
 function AppContent() {
   const [authModal, setAuthModal] = useState({ open: false, mode: 'login' });
@@ -32,6 +33,7 @@ function AppContent() {
           <Route path="/search" element={<SearchResults onLoginClick={handleLoginClick} />} />
           <Route path="/offers" element={<Offers onLoginClick={handleLoginClick} />} />
           <Route path="/architecture" element={<Architecture />} />
+          <Route path="/review2" element={<Review2 />} />
           <Route path="/about-project" element={<AboutProject />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>

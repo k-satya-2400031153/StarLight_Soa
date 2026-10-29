@@ -28,6 +28,22 @@ public class Booking {
 
     public Booking() {}
 
+    public Booking(Long roomId, String roomName, String roomType, String location,
+                   String userId, LocalDate checkIn, LocalDate checkOut,
+                   int guests, int totalPrice, String image) {
+        this.roomId = roomId;
+        this.roomName = roomName;
+        this.roomType = roomType;
+        this.location = location;
+        this.userId = userId;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.guests = guests;
+        this.totalPrice = totalPrice;
+        this.image = image;
+        this.status = "CONFIRMED";
+    }
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();

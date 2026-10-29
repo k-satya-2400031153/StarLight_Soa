@@ -2,14 +2,14 @@
 echo Starting Starlight SOA Application...
 
 echo Starting Backend Services...
-cd starlight-backend
-start cmd /k "build_and_run.bat"
-cd ..
+cd /d "%~dp0starlight-backend"
+start "STARLIGHT-BACKEND" cmd /k "build_and_run.bat"
+cd /d "%~dp0"
 
 echo Starting Frontend Website...
-cd starlight-frontend
-start cmd /k "npm install && npm run dev"
-cd ..
+cd /d "%~dp0starlight-frontend"
+start "STARLIGHT-FRONTEND" cmd /k "npm run dev"
+cd /d "%~dp0"
 
 echo.
 echo ========================================================

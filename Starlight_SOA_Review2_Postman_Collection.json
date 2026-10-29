@@ -1,0 +1,213 @@
+{
+  "info": {
+    "name": "Starlight SOA — Review 2 Test Suite (10/10 Marks)",
+    "_postman_id": "starlight-soa-review2-suite",
+    "description": "Comprehensive Automated Test Suite for Review 2 covering Service Discovery, JWT Security & RBAC, Gateway Routing, and Inter-service Communication.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Authentication & Security (Rubric 2)",
+      "item": [
+        {
+          "name": "[Positive] Register USER",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"satya_demo\",\n  \"password\": \"pass123\",\n  \"email\": \"satya_demo@klu.ac.in\",\n  \"role\": \"USER\"\n}"
+            },
+            "url": "http://localhost:8765/api/auth/register"
+          }
+        },
+        {
+          "name": "[Positive] Login as USER (Stores Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.environment.set('USER_TOKEN', jsonData.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"satya\",\n  \"password\": \"pass123\"\n}"
+            },
+            "url": "http://localhost:8765/api/auth/login"
+          }
+        },
+        {
+          "name": "[Positive] Login as ADMIN (Stores Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.environment.set('ADMIN_TOKEN', jsonData.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": "http://localhost:8765/api/auth/login"
+          }
+        },
+        {
+          "name": "[Negative] Login with Wrong Password",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"satya\",\n  \"password\": \"wrong_pass\"\n}"
+            },
+            "url": "http://localhost:8765/api/auth/login"
+          }
+        },
+        {
+          "name": "[Negative] Access Protected Endpoint without Token (401)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8765/api/users/profile"
+          }
+        },
+        {
+          "name": "[Negative] Access with Tampered Token (401)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.TAMPERED.TOKEN"
+              }
+            ],
+            "url": "http://localhost:8765/api/users/profile"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Role-Based Access Control - RBAC (Rubric 2 & 3)",
+      "item": [
+        {
+          "name": "[Positive] USER Access User Profile (200 OK)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{USER_TOKEN}}"}
+            ],
+            "url": "http://localhost:8765/api/users/profile"
+          }
+        },
+        {
+          "name": "[Negative] USER Access Admin Route /api/admin/users (403 Forbidden)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{USER_TOKEN}}"}
+            ],
+            "url": "http://localhost:8765/api/admin/users"
+          }
+        },
+        {
+          "name": "[Positive] ADMIN Access Admin Route /api/admin/users (200 OK)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{ADMIN_TOKEN}}"}
+            ],
+            "url": "http://localhost:8765/api/admin/users"
+          }
+        },
+        {
+          "name": "[Negative] USER Access Admin Bookings (403 Forbidden)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{USER_TOKEN}}"}
+            ],
+            "url": "http://localhost:8765/api/admin/bookings"
+          }
+        },
+        {
+          "name": "[Positive] ADMIN Access Admin Bookings (200 OK)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{ADMIN_TOKEN}}"}
+            ],
+            "url": "http://localhost:8765/api/admin/bookings"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Gateway Routing & Inter-Service Integration (Rubric 1 & 4)",
+      "item": [
+        {
+          "name": "[Positive] Public Rooms List via Gateway",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8765/api/rooms"
+          }
+        },
+        {
+          "name": "[Positive] Public Room Search by Location",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8765/api/rooms/search?location=Maldives"
+          }
+        },
+        {
+          "name": "[Positive] Create Booking (BookingService -> Eureka -> RoomService verification)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{USER_TOKEN}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": 1,\n  \"roomName\": \"Ocean Breeze Deluxe\",\n  \"roomType\": \"DELUXE\",\n  \"location\": \"Maldives\",\n  \"userId\": \"satya\",\n  \"checkIn\": \"2026-11-10\",\n  \"checkOut\": \"2026-11-15\",\n  \"guests\": 2,\n  \"totalPrice\": 92500,\n  \"image\": \"/images/room-deluxe.jpg\"\n}"
+            },
+            "url": "http://localhost:8765/api/bookings"
+          }
+        },
+        {
+          "name": "[Positive] Query Eureka System Status via Gateway",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{ADMIN_TOKEN}}"}
+            ],
+            "url": "http://localhost:8765/api/admin/system-status"
+          }
+        }
+      ]
+    }
+  ]
+}

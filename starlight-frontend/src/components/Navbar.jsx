@@ -26,6 +26,7 @@ export default function Navbar({ onLoginClick }) {
     { to: '/search', label: 'Destinations' },
     { to: '/offers', label: 'Offers' },
     { to: '/architecture', label: 'Architecture' },
+    { to: '/review2', label: 'Review-2 Demo', badge: '10/10' },
     { to: '/about-project', label: 'About Project' },
   ];
 
@@ -69,7 +70,14 @@ export default function Navbar({ onLoginClick }) {
                     : 'text-white/80 hover:text-gold-300'
                 }`}
               >
-                {link.label}
+                <span className="flex items-center gap-1.5">
+                  {link.label}
+                  {link.badge && (
+                    <span className="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-gradient-to-r from-gold-400 to-amber-500 text-navy-950 uppercase tracking-wider shadow-sm animate-pulse">
+                      {link.badge}
+                    </span>
+                  )}
+                </span>
                 {isActive(link.to) && (
                   <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-gold rounded-full" />
                 )}

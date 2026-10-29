@@ -31,4 +31,18 @@ public class RoomService {
                 guests
         );
     }
+
+    public Room createRoom(Room room) {
+        room.setId(null);
+        return RR.save(room);
+    }
+
+    public boolean deleteRoom(Long id) {
+        if (RR.existsById(id)) {
+            RR.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
+

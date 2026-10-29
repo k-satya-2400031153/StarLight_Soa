@@ -28,9 +28,16 @@ public class BookingController {
         return BS.getBookingsByUser(userId);
     }
 
+    // GET /api/bookings/admin/all — get all bookings across all users (admin)
+    @GetMapping("/admin/all")
+    public List<Booking> getAllBookings() {
+        return BS.getAllBookings();
+    }
+
     // DELETE /api/bookings/{id} — cancel a booking
     @DeleteMapping("/{id}")
     public Map<String, Object> cancelBooking(@PathVariable Long id) {
         return BS.cancelBooking(id);
     }
 }
+

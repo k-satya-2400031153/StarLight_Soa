@@ -93,4 +93,37 @@ public class GatewayController {
     public ResponseEntity<String> cancelBooking(@PathVariable Long id) {
         return GS.invokeDelete("BOOKING-SERVICE", "api/bookings/" + id);
     }
+
+    // ==================== ADMIN ROUTES (PROTECTED — JWT + ADMIN ROLE REQUIRED) ====================
+
+    // GET /api/admin/users → USER-SERVICE /api/users (Admin only)
+    @GetMapping("/api/admin/users")
+    public ResponseEntity<String> getAllUsers() {
+        return GS.invokeGet("USER-SERVICE", "api/users");
+    }
+
+    // GET /api/admin/bookings → BOOKING-SERVICE /api/bookings/admin/all (Admin only)
+    @GetMapping("/api/admin/bookings")
+    public ResponseEntity<String> getAllBookings() {
+        return GS.invokeGet("BOOKING-SERVICE", "api/bookings/admin/all");
+    }
+
+    // POST /api/admin/rooms → ROOM-SERVICE /api/rooms (Admin only)
+    @PostMapping("/api/admin/rooms")
+    public ResponseEntity<String> createRoom(@RequestBody Map<String, Object> data) {
+        return GS.invokePost("ROOM-SERVICE", "api/rooms", data);
+    }
+
+    // DELETE /api/admin/rooms/{id} → ROOM-SERVICE /api/rooms/{id} (Admin only)
+    @DeleteMapping("/api/admin/rooms/{id}")
+    public ResponseEntity<String> deleteRoom(@PathVariable Long id) {
+        return GS.invokeDelete("ROOM-SERVICE", "api/rooms/" + id);
+    }
+
+    // GET /api/admin/system-status → Eureka discovery summary (Admin only)
+    @GetMapping("/api/admin/system-status")
+    public ResponseEntity<Map<String, Object>> getSystemStatus() {
+        return ResponseEntity.ok(GS.getAggregatedStatus());
+    }
 }
+
