@@ -401,14 +401,14 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
   /* Room cards → 2 columns on tablet */
   [class*="grid-cols-4"],
-  [class*="lg\\:grid-cols-4"] {
+  [class*="lg:grid-cols-4"] {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 
   /* 3-col grids → 2 columns on tablet */
   [class*="grid-cols-3"],
-  [class*="lg\\:grid-cols-3"],
-  [class*="md\\:grid-cols-3"] {
+  [class*="lg:grid-cols-3"],
+  [class*="md:grid-cols-3"] {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 
@@ -425,11 +425,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 @media (min-width: 1024px) {
 
   /* Room grid → 3 or 4 columns based on context */
-  [class*="lg\\:grid-cols-4"] {
+  [class*="lg:grid-cols-4"] {
     grid-template-columns: repeat(4, 1fr) !important;
   }
 
-  [class*="lg\\:grid-cols-3"] {
+  [class*="lg:grid-cols-3"] {
     grid-template-columns: repeat(3, 1fr) !important;
   }
 }
@@ -444,8 +444,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 /* ---------- NAVBAR MOBILE HELPERS ---------- */
 @media (max-width: 767px) {
   /* Ensure hamburger button is always visible */
-  nav .md\\:hidden { display: flex !important; }
-  nav .hidden.md\\:flex { display: none !important; }
+  nav [class*="md:hidden"] { display: flex !important; }
+  nav .hidden[class*="md:flex"] { display: none !important; }
 }
 
 /* ---------- SMOOTH CONTAINER SCALING ---------- */
@@ -458,25 +458,25 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 /* ---------- OFFERS PAGE GRID ---------- */
 @media (max-width: 640px) {
-  .sm\\:grid-cols-2,
-  .lg\\:grid-cols-3,
-  .md\\:grid-cols-3 {
+  [class*="sm:grid-cols-2"],
+  [class*="lg:grid-cols-3"],
+  [class*="md:grid-cols-3"] {
     grid-template-columns: 1fr !important;
   }
 }
 
 @media (min-width: 641px) and (max-width: 1023px) {
-  .sm\\:grid-cols-2 {
+  [class*="sm:grid-cols-2"] {
     grid-template-columns: repeat(2, 1fr) !important;
   }
-  .lg\\:grid-cols-3,
-  .md\\:grid-cols-3 {
+  [class*="lg:grid-cols-3"],
+  [class*="md:grid-cols-3"] {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
 @media (min-width: 1024px) {
-  .lg\\:grid-cols-3 {
+  [class*="lg:grid-cols-3"] {
     grid-template-columns: repeat(3, 1fr) !important;
   }
 }
